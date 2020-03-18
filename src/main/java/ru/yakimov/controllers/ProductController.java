@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ru.yakimov.exceptions.ProductNotFoundException;
 import ru.yakimov.services.ImageService;
 import ru.yakimov.services.ProductService;
+import ru.yakimov.utils.PatternUUID;
 
 import javax.imageio.ImageIO;
 
@@ -29,13 +30,14 @@ public class ProductController {
 
     private final ImageService imageService;
     private final ProductService productService;
+    private final PatternUUID patternUUID;
 
     @GetMapping("/{id}")
     public String getOneProduct(Model model, @PathVariable String id) throws ProductNotFoundException {
 
-        // TODO ДЗ - утилита, которая будет проверять UUID
-
-        model.addAttribute("product", productService.findOneById(UUID.fromString(id)));
+        UUID uuid = UUID.fromString(id);
+        patternUUID.checkUUID(uuid);
+        model.addAttribute("product", productService.findOneById(uuid));
         return "product";
     }
 
