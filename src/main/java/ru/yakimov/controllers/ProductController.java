@@ -44,7 +44,6 @@ public class ProductController {
     @GetMapping(value = "/images/{id}", produces = MediaType.IMAGE_PNG_VALUE)
     public @ResponseBody byte[] getImage(@PathVariable String id) {
 
-        // TODO ДЗ - сделать поддержку множества картинок
 
         try {
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

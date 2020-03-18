@@ -32,8 +32,8 @@
                                 <a th:href="@{'/products/' + ${product.id}}">[[ ${product.title} ]]</a>
                             </td>
                             <td>
-                                <div>
-                                    <img th:src="@{'/products/images/' + ${product.id}}" alt="" width="50px" height="50px" />
+                                <div th:each="image : ${product.images}">
+                                    <img th:src="@{'/products/images/' + ${image.id}}" alt="" width="50px" height="50px" />
                                 </div>
                             </td>
                             <td th:text="${product.description}"/>

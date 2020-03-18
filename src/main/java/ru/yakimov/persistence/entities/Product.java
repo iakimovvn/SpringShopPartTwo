@@ -9,13 +9,11 @@ import lombok.NoArgsConstructor;
 import ru.yakimov.persistence.entities.enums.ProductCategory;
 import ru.yakimov.persistence.entities.utils.PersistableEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -38,8 +36,7 @@ public class Product extends PersistableEntity {
     @Enumerated(EnumType.ORDINAL)
     private ProductCategory category;
 
-    @OneToOne
-    @JoinColumn(name = "image")
-    private Image image;
+    @OneToMany(mappedBy = "product")
+    private List<Image> images = new ArrayList<>();
 
 }
