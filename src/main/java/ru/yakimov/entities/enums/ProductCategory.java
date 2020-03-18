@@ -1,4 +1,4 @@
-package ru.yakimov.persistence.entities.enums;
+package ru.yakimov.entities.enums;
 
 import lombok.Getter;
 

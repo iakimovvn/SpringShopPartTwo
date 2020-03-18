@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import ru.yakimov.exceptions.ProductNotFoundException;
-import ru.yakimov.persistence.entities.Product;
-import ru.yakimov.persistence.entities.enums.ProductCategory;
+import ru.yakimov.entities.Product;
+import ru.yakimov.entities.enums.ProductCategory;
 import ru.yakimov.persistence.repositories.ProductRepository;
 
 import java.util.List;

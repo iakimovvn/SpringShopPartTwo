@@ -2,8 +2,8 @@ package ru.yakimov.persistence.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import ru.yakimov.persistence.entities.Product;
-import ru.yakimov.persistence.entities.enums.ProductCategory;
+import ru.yakimov.entities.Product;
+import ru.yakimov.entities.enums.ProductCategory;
 
 import java.util.List;
 import java.util.UUID;

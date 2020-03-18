@@ -1,9 +1,9 @@
-package ru.yakimov.persistence.entities;
+package ru.yakimov.entities;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import ru.yakimov.persistence.entities.utils.PersistableEntity;
+import ru.yakimov.utils.PersistableEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;

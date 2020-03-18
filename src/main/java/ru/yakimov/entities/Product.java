@@ -1,4 +1,4 @@
-package ru.yakimov.persistence.entities;
+package ru.yakimov.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,8 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import lombok.NoArgsConstructor;
-import ru.yakimov.persistence.entities.enums.ProductCategory;
-import ru.yakimov.persistence.entities.utils.PersistableEntity;
+import ru.yakimov.entities.enums.ProductCategory;
+import ru.yakimov.utils.PersistableEntity;
 
 import javax.persistence.*;
 
