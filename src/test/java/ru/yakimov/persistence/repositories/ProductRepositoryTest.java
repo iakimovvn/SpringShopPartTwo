@@ -16,8 +16,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import ru.yakimov.entities.Product;
-import ru.yakimov.entities.enums.ProductCategory;
+import ru.yakimov.persistence.entities.Product;
+import ru.yakimov.persistence.entities.enums.ProductCategory;
 
 import java.io.IOException;
 
@@ -68,4 +68,15 @@ public class ProductRepositoryTest {
         Assert.assertEquals(4, productRepository.findAll().size());
     }
 
+    @Test
+    public void findAllByCategoryAndAvailable() {
+        Assert.assertEquals(0, productRepository.findAllByCategoryAndAvailable(ProductCategory.FOOD, false).size());
+
+    }
+
+    @Test
+    public void findAllByAvailable() {
+        Assert.assertEquals(4, productRepository.findAllByAvailable(true).size());
+
+    }
 }

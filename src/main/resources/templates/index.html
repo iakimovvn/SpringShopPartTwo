@@ -26,7 +26,8 @@
                 <tbody>
                     <tr th:each="product, iterator : ${products}">
                         <!--/*@thymesVar id="product" type="ru.geekbrains.supershop.persistence.entities.Product"*/-->
-                        <span th:if="${product.available}">
+<!--                        <span th:if="${product.available}">-->
+                        <span>
                             <td th:text="${iterator.index + 1}"/>
                             <td>
                                 <a th:href="@{'/products/' + ${product.id}}">[[ ${product.title} ]]</a>
@@ -53,9 +54,14 @@
                             th:text="${category.name}"
                     />
                 </select>
+                <select name="status">
+                    <option th:each="status : ${T(ru.yakimov.persistence.entities.enums.ProductStatus).values()}"
+                            th:value="${status.ordinal()}"
+                            th:text="${status.name}"
+                    />
+                </select>
                 <button type="submit">применить</button>
             </form>
         </div>
-    \
     </body>
 </html>

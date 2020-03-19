@@ -1,4 +1,4 @@
-package ru.yakimov.utils;
+package ru.yakimov.persistence.entities;
 
 import lombok.Data;
 
