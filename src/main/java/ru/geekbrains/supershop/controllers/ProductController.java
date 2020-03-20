@@ -40,14 +40,10 @@ public class ProductController {
     }
 
     @GetMapping(value = "/images/{id}", produces = MediaType.IMAGE_PNG_VALUE)
-    public @ResponseBody byte[] getImage(@PathVariable String id) {
-        try {
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ImageIO.write(imageService.loadFileAsResource(id), "png", byteArrayOutputStream);
-            return byteArrayOutputStream.toByteArray();
-        } catch (IOException e) {
-            throw new RuntimeException();
-        }
+    public @ResponseBody byte[] getImage(@PathVariable String id) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ImageIO.write(imageService.loadFileAsResource(id),"png", byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
     }
 
 }

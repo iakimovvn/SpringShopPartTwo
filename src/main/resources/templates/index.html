@@ -12,6 +12,14 @@
                 <h1>Super Shop</h1>
             </div>
 
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm">
+                        <a class="nav-link" th:href="@{/cart}" th:text="CART + '(' + ${cart.size() + ')'}">CART</a>
+                    </div>
+                </div>
+            </div>
+
             <table class="table table-hover">
                 <thead class="thead-dark">
                 <tr>
@@ -39,6 +47,11 @@
                             <td th:text="${product.description}"/>
                             <td th:text="${product.price}"/>
                             <td th:text="${#dates.format(product.added, 'dd-MM-yyyy')}"/>
+                            <td>
+                                <a th:href="@{'/cart/add/' + ${product.id}}">
+                                    <img th:src="@{'/products/images/cart.png'}" alt="" width="30px" height="30px" />
+                                </a>
+                            </td>
                         </span>
                     </tr>
                 </tbody>
