@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ru.geekbrains.supershop.exceptions.ProductNotFoundException;
+import ru.geekbrains.supershop.persistence.entities.Image;
 import ru.geekbrains.supershop.persistence.entities.Product;
 import ru.geekbrains.supershop.persistence.entities.enums.ProductCategory;
 import ru.geekbrains.supershop.persistence.pojo.ProductPojo;
@@ -35,7 +36,7 @@ public class ProductService {
     }
 
     @Transactional
-    public String save(ProductPojo productPogo) {
+    public String save(ProductPojo productPogo, Image image) {
 
         Product product = Product.builder()
             .added(new Date())
@@ -44,6 +45,7 @@ public class ProductService {
             .price(productPogo.getPrice())
             .available(productPogo.isAvailable())
             .category(productPogo.getCategory())
+            .image(image)
         .build();
 
         productRepository.save(product);

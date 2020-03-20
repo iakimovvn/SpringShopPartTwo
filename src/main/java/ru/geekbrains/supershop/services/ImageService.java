@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import ru.geekbrains.supershop.persistence.entities.Image;
 import ru.geekbrains.supershop.persistence.repositories.ImageRepository;
 import ru.geekbrains.supershop.utils.Validators;
 
@@ -14,7 +17,9 @@ import javax.imageio.ImageIO;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.UUID;
 
 @Slf4j
@@ -65,4 +70,14 @@ public class ImageService {
             return null;
         }
     }
+
+    @Transactional
+    public Image uploadImage(MultipartFile image, String imageName) throws IOException {
+        String uploadedFileName = imageName + ".png";
+        Path targetLocation = IMAGES_STORE_PATH.resolve(uploadedFileName);
+        Files.copy(image.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+        log.info("File {} has been succesfully uploaded!", uploadedFileName);
+        return imageRepository.save(new Image(uploadedFileName));
+    }
+
 }

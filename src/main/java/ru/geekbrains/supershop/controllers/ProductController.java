@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import ru.geekbrains.supershop.exceptions.ProductNotFoundException;
+import ru.geekbrains.supershop.persistence.entities.Image;
 import ru.geekbrains.supershop.persistence.pojo.ProductPojo;
 import ru.geekbrains.supershop.services.ImageService;
 import ru.geekbrains.supershop.services.ProductService;
@@ -54,8 +57,9 @@ public class ProductController {
     }
 
     @PostMapping
-    public String addOne(ProductPojo productPojo) {
-        return productService.save(productPojo);
+    public String addOne(@RequestParam("image") MultipartFile image, ProductPojo productPojo) throws IOException {
+        Image img = imageService.uploadImage(image, productPojo.getTitle());
+        return productService.save(productPojo, img);
     }
 
 }
