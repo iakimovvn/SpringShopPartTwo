@@ -7,7 +7,10 @@ import ru.geekbrains.supershop.persistence.entities.utils.PersistableEntity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
 import java.util.List;
 
 @Data
@@ -21,5 +24,9 @@ public class Purchase extends PersistableEntity {
 
     @OneToMany(mappedBy = "purchase", cascade = CascadeType.ALL)
     private List<CartRecord> cartRecords;
+
+    @ManyToOne
+    @JoinColumn(name = "shopuser")
+    private Shopuser shopuser;
 
 }
