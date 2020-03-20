@@ -30,6 +30,22 @@ public class ShopController {
         return "index";
     }
 
+    @GetMapping("/admin")
+    public String adminPage(Model model, @CookieValue(value = "data", required = false) String data, Principal principal) {
+
+        if (principal == null) {
+            return "redirect:/";
+        }
+
+        if (data != null) {
+            System.out.println(data);
+        }
+
+        model.addAttribute("products", productService.findAll(null));
+
+        return "admin";
+    }
+
     @GetMapping("/profile")
     public String profilePage(Model model, @CookieValue(value = "data", required = false) String data, Principal principal) {
 

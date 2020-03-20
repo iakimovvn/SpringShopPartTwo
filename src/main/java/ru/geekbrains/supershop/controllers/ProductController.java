@@ -8,10 +8,12 @@ import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ru.geekbrains.supershop.exceptions.ProductNotFoundException;
+import ru.geekbrains.supershop.persistence.pogo.ProductPogo;
 import ru.geekbrains.supershop.services.ImageService;
 import ru.geekbrains.supershop.services.ProductService;
 
@@ -44,6 +46,11 @@ public class ProductController {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         ImageIO.write(imageService.loadFileAsResource(id),"png", byteArrayOutputStream);
         return byteArrayOutputStream.toByteArray();
+    }
+
+    @PostMapping
+    public String addOne(ProductPogo productPogo) {
+        return productService.save(productPogo);
     }
 
 }
