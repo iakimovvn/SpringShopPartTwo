@@ -19,9 +19,9 @@ import ru.geekbrains.supershop.services.ProductService;
 
 import javax.imageio.ImageIO;
 
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-
 import java.util.UUID;
 
 @Controller
@@ -44,8 +44,13 @@ public class ProductController {
     @GetMapping(value = "/images/{id}", produces = MediaType.IMAGE_PNG_VALUE)
     public @ResponseBody byte[] getImage(@PathVariable String id) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        ImageIO.write(imageService.loadFileAsResource(id),"png", byteArrayOutputStream);
-        return byteArrayOutputStream.toByteArray();
+        BufferedImage bufferedImage = imageService.loadFileAsResource(id);
+        if (bufferedImage != null) {
+            ImageIO.write(bufferedImage,"png", byteArrayOutputStream);
+            return byteArrayOutputStream.toByteArray();
+        } else {
+            return new byte[0];
+        }
     }
 
     @PostMapping
