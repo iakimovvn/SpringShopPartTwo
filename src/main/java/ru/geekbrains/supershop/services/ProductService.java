@@ -9,7 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.geekbrains.supershop.exceptions.ProductNotFoundException;
 import ru.geekbrains.supershop.persistence.entities.Product;
 import ru.geekbrains.supershop.persistence.entities.enums.ProductCategory;
-import ru.geekbrains.supershop.persistence.pogo.ProductPogo;
+import ru.geekbrains.supershop.persistence.pojo.ProductPojo;
+
 import ru.geekbrains.supershop.persistence.repositories.ProductRepository;
 
 import java.util.Date;
@@ -34,7 +35,7 @@ public class ProductService {
     }
 
     @Transactional
-    public String save(ProductPogo productPogo) {
+    public String save(ProductPojo productPogo) {
 
         Product product = Product.builder()
             .added(new Date())

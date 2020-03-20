@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ru.geekbrains.supershop.exceptions.ProductNotFoundException;
-import ru.geekbrains.supershop.persistence.pogo.ProductPogo;
+import ru.geekbrains.supershop.persistence.pojo.ProductPojo;
 import ru.geekbrains.supershop.services.ImageService;
 import ru.geekbrains.supershop.services.ProductService;
 
@@ -49,8 +49,8 @@ public class ProductController {
     }
 
     @PostMapping
-    public String addOne(ProductPogo productPogo) {
-        return productService.save(productPogo);
+    public String addOne(ProductPojo productPojo) {
+        return productService.save(productPojo);
     }
 
 }
