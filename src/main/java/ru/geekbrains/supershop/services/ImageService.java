@@ -73,11 +73,15 @@ public class ImageService {
 
     @Transactional
     public Image uploadImage(MultipartFile image, String imageName) throws IOException {
-        String uploadedFileName = imageName + ".png";
-        Path targetLocation = IMAGES_STORE_PATH.resolve(uploadedFileName);
-        Files.copy(image.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-        log.info("File {} has been succesfully uploaded!", uploadedFileName);
-        return imageRepository.save(new Image(uploadedFileName));
+        if (image.getBytes().length != 0) {
+            String uploadedFileName = imageName + ".png";
+            Path targetLocation = IMAGES_STORE_PATH.resolve(uploadedFileName);
+            Files.copy(image.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+            log.info("File {} has been succesfully uploaded!", uploadedFileName);
+            return imageRepository.save(new Image(uploadedFileName));
+        } else {
+            return null;
+        }
     }
 
 }
