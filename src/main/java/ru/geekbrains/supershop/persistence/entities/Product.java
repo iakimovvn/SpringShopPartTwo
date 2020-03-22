@@ -13,9 +13,11 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -42,4 +44,6 @@ public class Product extends PersistableEntity {
     @JoinColumn(name = "image")
     private Image image;
 
+    @OneToMany(mappedBy = "product")
+    private List<Review> reviews;
 }

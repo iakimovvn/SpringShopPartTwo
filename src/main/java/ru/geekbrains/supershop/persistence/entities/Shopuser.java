@@ -18,7 +18,6 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "shopuser")
 @EqualsAndHashCode(callSuper = true)
 public class Shopuser extends PersistableEntity {
 
@@ -37,5 +36,8 @@ public class Shopuser extends PersistableEntity {
 
     @OneToMany(mappedBy = "shopuser")
     private List<Purchase> purchases;
+
+    @OneToMany(mappedBy = "shopuser")
+    private List<Review> reviews;
 
 }

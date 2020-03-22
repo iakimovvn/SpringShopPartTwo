@@ -73,3 +73,12 @@ CREATE TABLE IF NOT EXISTS cart_record (
     product uuid NOT NULL CONSTRAINT FK_cart_product REFERENCES product ON UPDATE CASCADE ON DELETE CASCADE,
     purchase uuid NOT NULL CONSTRAINT FK_cart_purchase REFERENCES purchase ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+DROP TABLE IF EXISTS review;
+
+CREATE TABLE IF NOT EXISTS review (
+    id uuid DEFAULT uuid_generate_v4() UNIQUE NOT NULL CONSTRAINT PK_review PRIMARY KEY,
+    commentary VARCHAR(500) NOT NULL,
+    shopuser uuid NOT NULL CONSTRAINT FK_review_shopuser REFERENCES shopuser,
+    product uuid NOT NULL CONSTRAINT FK_review_product REFERENCES product
+);
