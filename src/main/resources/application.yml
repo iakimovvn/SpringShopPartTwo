@@ -13,3 +13,8 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQL9Dialect
   thymeleaf:
     cache: false
+
+files:
+  storepath:
+    icons:  "/Users/vladimir/java/GeekBrains/SpringPartTwo/homework/upload/icons"
+    images: "/Users/vladimir/java/GeekBrains/SpringPartTwo/homework/upload/images"

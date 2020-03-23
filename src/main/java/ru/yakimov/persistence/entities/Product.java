@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 
 import lombok.NoArgsConstructor;
 import ru.yakimov.persistence.entities.enums.ProductCategory;
+import ru.yakimov.persistence.entities.utils.PersistableEntity;
 
 import javax.persistence.*;
 
@@ -37,5 +38,6 @@ public class Product extends PersistableEntity {
 
     @OneToMany(mappedBy = "product")
     private List<Image> images = new ArrayList<>();
+
 
 }

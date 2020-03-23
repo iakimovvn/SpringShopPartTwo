@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "files.storepath.icons",
+      "type": "java.lang.String",
+      "description": "Description for files.storepath.icons."
+    },
+    {
+      "name": "files.storepath.images",
+      "type": "java.lang.String",
+      "description": "Description for files.storepath.images."
+    }
+  ] }
