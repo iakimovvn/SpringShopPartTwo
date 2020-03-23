@@ -8,6 +8,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.util.stream.IntStream;
 
 @Component
 public class CaptchaGenerator {
@@ -35,12 +36,11 @@ public class CaptchaGenerator {
             graphics2D.setColor(circleColor);
 
             int circlesToDraw = 25;
-            for (int i = 0; i < circlesToDraw; i++) {
-                int L = (int) (Math.random() * height / 2.0);
+            IntStream.range(0, circlesToDraw).map(i -> (int) (Math.random() * height / 2.0)).forEach(L -> {
                 int X = (int) (Math.random() * width - L);
                 int Y = (int) (Math.random() * height - L);
                 graphics2D.draw3DRect(X, Y, L * 2, L * 2, true);
-            }
+            });
 
             graphics2D.setColor(textColor);
             graphics2D.setFont(textFont);
@@ -57,12 +57,11 @@ public class CaptchaGenerator {
             int charsToPrint = 6;
             float spacePerChar = spaceForLetters / (charsToPrint - 1.0f);
             StringBuilder finalString = new StringBuilder();
-            for (int i = 0; i < charsToPrint; i++) {
+            IntStream.range(0, charsToPrint).forEach(i -> {
                 double randomValue = Math.random();
                 int randomIndex = (int) Math.round(randomValue * (chars.length - 1));
                 char characterToShow = chars[randomIndex];
                 finalString.append(characterToShow);
-
                 int charWidth = fontMetrics.charWidth(characterToShow);
                 int charDim = Math.max(maxAdvance, fontHeight);
                 int halfCharDim = charDim / 2;
@@ -81,7 +80,7 @@ public class CaptchaGenerator {
                 int y = (height - charDim) / 2;
                 graphics2D.drawImage(charImage, (int) x, y, charDim, charDim, null, null);
                 charGraphics.dispose();
-            }
+            });
             graphics2D.setColor(borderColor);
             graphics2D.drawRect(0, 0, width - 1, height - 1);
             graphics2D.dispose();
