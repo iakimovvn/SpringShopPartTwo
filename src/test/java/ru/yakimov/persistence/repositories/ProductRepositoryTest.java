@@ -68,4 +68,15 @@ public class ProductRepositoryTest {
         Assert.assertEquals(4, productRepository.findAll().size());
     }
 
+    @Test
+    public void findAllByCategoryAndAvailable() {
+        Assert.assertEquals(0, productRepository.findAllByCategoryAndAvailable(ProductCategory.FOOD, false).size());
+
+    }
+
+    @Test
+    public void findAllByAvailable() {
+        Assert.assertEquals(4, productRepository.findAllByAvailable(true).size());
+
+    }
 }
