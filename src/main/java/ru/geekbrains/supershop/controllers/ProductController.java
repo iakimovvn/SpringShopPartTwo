@@ -14,11 +14,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import ru.geekbrains.supershop.exceptions.ProductNotFoundException;
+import ru.geekbrains.supershop.exceptions.EntityNotFoundException;
 import ru.geekbrains.supershop.persistence.entities.Image;
 import ru.geekbrains.supershop.persistence.entities.Product;
 import ru.geekbrains.supershop.persistence.entities.Review;
 import ru.geekbrains.supershop.persistence.entities.Shopuser;
+import ru.geekbrains.supershop.persistence.entities.enums.Role;
 import ru.geekbrains.supershop.persistence.pojo.ProductPojo;
 import ru.geekbrains.supershop.persistence.pojo.ReviewPojo;
 import ru.geekbrains.supershop.services.ImageService;
@@ -48,7 +49,7 @@ public class ProductController {
     private final ShopuserService shopuserService;
 
     @GetMapping("/{id}")
-    public String getOneProduct(Model model, @PathVariable String id) throws ProductNotFoundException {
+    public String getOneProduct(Model model, @PathVariable String id) throws EntityNotFoundException {
 
         Product product = productService.findOneById(UUID.fromString(id));
         List<Review> reviews = reviewService.getReviewsByProduct(product).orElse(new ArrayList<>());
@@ -76,7 +77,7 @@ public class ProductController {
     }
 
     @PostMapping("/reviews")
-    public String addReview(ReviewPojo reviewPojo, HttpSession session, Principal principal) throws ProductNotFoundException {
+    public String addReview(ReviewPojo reviewPojo, HttpSession session, Principal principal) throws EntityNotFoundException {
 
         Product product = productService.findOneById(reviewPojo.getProductId());
         Shopuser shopuser = shopuserService.findByPhone(principal.getName());
@@ -85,6 +86,7 @@ public class ProductController {
             .commentary(reviewPojo.getCommentary())
             .product(product)
             .shopuser(shopuser)
+            .approved(shopuser.getRole().equals(Role.ROLE_ADMIN))
         .build();
 
         reviewService.save(review);
