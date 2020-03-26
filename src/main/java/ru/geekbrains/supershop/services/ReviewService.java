@@ -12,6 +12,7 @@ import ru.geekbrains.supershop.persistence.repositories.ReviewRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +26,14 @@ public class ReviewService {
 
     public Optional<List<Review>> getReviewsByShopuser(Shopuser shopuser) {
         return reviewRepository.findByShopuser(shopuser);
+    }
+
+    public Optional<Review> findById(UUID uuid){
+        return reviewRepository.findById(uuid);
+    }
+
+    public void deleteById(UUID uuid){
+        reviewRepository.deleteById(uuid);
     }
 
     @Transactional

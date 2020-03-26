@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
 import ru.geekbrains.supershop.persistence.entities.utils.PersistableEntity;
 
 import javax.persistence.Entity;
@@ -29,5 +28,7 @@ public class Review extends PersistableEntity {
     @ManyToOne
     @JoinColumn(name = "product")
     private Product product;
+
+    private Boolean approved;
 
 }

@@ -26,12 +26,29 @@
                 </thead>
                 <tbody th:if="${reviews.size() > 0}">
                 <tr th:each="review, iterator : ${reviews}">
+                    <div th:if="${review.approved}">
                     <!--/*@thymesVar id="review" type="ru.geekbrains.supershop.persistence.entities.Review"*/-->
-                    <td th:text="${iterator.index + 1}"></td>
-                    <td th:text="${review.commentary}"></td>
-                    <td>
-                        <a th:href="@{'/profile/' + ${review.shopuser.id}}">[[ ${review.shopuser.firstName} ]]</a>
-                    </td>
+                        <td th:text="${iterator.index + 1}"></td>
+                        <td th:text="${review.commentary}"></td>
+                        <td>
+                            <a th:href="@{'/profile/' + ${review.shopuser.id}}">[[ ${review.shopuser.firstName} ]]</a>
+                        </td>
+                    </div>
+
+                    <div sec:authorize="hasRole('ADMIN')" th:if="not ${review.approved}">
+                        <!--/*@thymesVar id="review" type="ru.geekbrains.supershop.persistence.entities.Review"*/-->
+                        <td th:text="${iterator.index + 1}"></td>
+                        <td th:text="${review.commentary}"></td>
+                        <td>
+                            <a th:href="@{'/profile/' + ${review.shopuser.id}}">[[ ${review.shopuser.firstName} ]]</a>
+                        </td>
+                        <td>
+                        <td>
+                            <a class="btn btn-success" th:href="@{'/products/approved/' + ${product.id}+'/'+${review.id}}">Approved</a>
+                            <a class="btn btn-danger" th:href="@{'/products/disapproved/' + ${product.id}+'/'+${review.id}}">Delete</a>
+                        </td>
+
+                    </div>
                 </tr>
                 </tbody>
             </table>

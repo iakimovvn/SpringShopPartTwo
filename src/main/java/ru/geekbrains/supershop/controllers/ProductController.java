@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -90,7 +91,20 @@ public class ProductController {
         reviewService.save(review);
 
         return "redirect:/products/" + product.getId();
+    }
 
+    @GetMapping("/disapproved/{pid}/{id}")
+    public String disapprovedReview(Model model,@PathVariable String pid, @PathVariable String id){
+        reviewService.deleteById(UUID.fromString(id));
+        return "redirect:/products/"+pid;
+    }
+
+    @GetMapping("/approved/{pid}/{id}")
+    public String approvedReview(Model model,@PathVariable String pid, @PathVariable String id){
+        Review review = reviewService.findById(UUID.fromString(id)).get();
+        review.setApproved(true);
+        reviewService.save(review);
+        return "redirect:/products/"+pid;
     }
 
 }
