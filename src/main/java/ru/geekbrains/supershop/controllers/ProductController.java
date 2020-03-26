@@ -70,6 +70,18 @@ public class ProductController {
         }
     }
 
+//    @GetMapping(value = "/review/images/{id}", produces = MediaType.IMAGE_PNG_VALUE)
+//    public @ResponseBody byte[] getReviewImage(@PathVariable String id) throws IOException {
+//        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//        BufferedImage bufferedImage = imageService.loadFileAsResource(id);
+//        if (bufferedImage != null) {
+//            ImageIO.write(bufferedImage,"png", byteArrayOutputStream);
+//            return byteArrayOutputStream.toByteArray();
+//        } else {
+//            return new byte[0];
+//        }
+//    }
+
     @PostMapping
     public String addOne(@RequestParam("image") MultipartFile image, ProductPojo productPojo) throws IOException {
         Image img = imageService.uploadImage(image, productPojo.getTitle());
@@ -77,8 +89,9 @@ public class ProductController {
     }
 
     @PostMapping("/reviews")
-    public String addReview(ReviewPojo reviewPojo, HttpSession session, Principal principal) throws ProductNotFoundException {
+    public String addReview(ReviewPojo reviewPojo, HttpSession session, Principal principal, MultipartFile multipartFile) throws ProductNotFoundException, IOException {
 
+        Image image = imageService.uploadImage(multipartFile,"image"+Math.random()*10000);
         Product product = productService.findOneById(reviewPojo.getProductId());
         Shopuser shopuser = shopuserService.findByPhone(principal.getName());
 
@@ -86,12 +99,14 @@ public class ProductController {
             .commentary(reviewPojo.getCommentary())
             .product(product)
             .shopuser(shopuser)
+            .image(image)
         .build();
 
         reviewService.save(review);
 
         return "redirect:/products/" + product.getId();
     }
+
 
     @GetMapping("/disapproved/{pid}/{id}")
     public String disapprovedReview(Model model,@PathVariable String pid, @PathVariable String id){

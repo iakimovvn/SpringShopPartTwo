@@ -21,6 +21,7 @@
                 <tr>
                     <th>#</th>
                     <th>Текст отзыва</th>
+                    <th>Изображение</th>
                     <th>Пользователь</th>
                 </tr>
                 </thead>
@@ -30,6 +31,11 @@
                     <!--/*@thymesVar id="review" type="ru.geekbrains.supershop.persistence.entities.Review"*/-->
                         <td th:text="${iterator.index + 1}"></td>
                         <td th:text="${review.commentary}"></td>
+                        <td>
+                            <div>
+                                <img th:src="@{'/products/review/images/' + ${review.id}}" alt="" width="50px" height="50px" />
+                            </div>
+                        </td>
                         <td>
                             <a th:href="@{'/profile/' + ${review.shopuser.id}}">[[ ${review.shopuser.firstName} ]]</a>
                         </td>
@@ -55,7 +61,7 @@
         </div>
         <hr>
         <div class="container" style="text-align: center" sec:authorize="isAuthenticated()">
-            <form action="#" th:action="@{/products/reviews}" method="POST">
+            <form action="#" th:action="@{/products/reviews}" method="POST" enctype="multipart/form-data">
                 <div class="form-row row justify-content-center">
                     <div class="form-group col-md-9">
                         <textarea class="form-control" name="commentary" rows="5" style="resize: none;" placeholder="Введите ваш отзыв"></textarea>
@@ -68,6 +74,9 @@
                     </div>
                     <div class="form-group col-md-3">
                         <img class="captcha-pic" id="captcha" th:src="@{/captcha}" />
+                    </div>
+                    <div class="form-group col-md-3">
+                        <input type="file" class="form-control" name="image"/>фото
                     </div>
                     <div class="form-group col-md-3">
                         <button type="submit" class="btn btn-success">оставить отзыв</button>
