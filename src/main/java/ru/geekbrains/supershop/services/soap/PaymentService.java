@@ -4,11 +4,11 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
 
-import ru.geekbrains.soap.payment.GetPaymentRequest;
-import ru.geekbrains.soap.payment.GetPaymentResponse;
-import ru.geekbrains.soap.payment.Payment;
-import ru.geekbrains.soap.payment.PaymentPort;
-import ru.geekbrains.soap.payment.PaymentPortService;
+import ru.geekbrains.paymentservice.GetPaymentRequest;
+import ru.geekbrains.paymentservice.GetPaymentResponse;
+import ru.geekbrains.paymentservice.Payment;
+import ru.geekbrains.paymentservice.PaymentPort;
+import ru.geekbrains.paymentservice.PaymentPortService;
 
 import java.util.ArrayList;
 import java.util.List;
