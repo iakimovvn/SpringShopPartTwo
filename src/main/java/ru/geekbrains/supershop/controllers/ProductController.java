@@ -14,11 +14,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import ru.geekbrains.supershop.exceptions.ProductNotFoundException;
+import ru.geekbrains.supershop.exceptions.EntityNotFoundException;
 import ru.geekbrains.supershop.persistence.entities.Image;
 import ru.geekbrains.supershop.persistence.entities.Product;
 import ru.geekbrains.supershop.persistence.entities.Review;
 import ru.geekbrains.supershop.persistence.entities.Shopuser;
+import ru.geekbrains.supershop.persistence.entities.enums.Role;
 import ru.geekbrains.supershop.persistence.pojo.ProductPojo;
 import ru.geekbrains.supershop.persistence.pojo.ReviewPojo;
 import ru.geekbrains.supershop.services.ImageService;
@@ -35,7 +36,6 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -49,7 +49,7 @@ public class ProductController {
     private final ShopuserService shopuserService;
 
     @GetMapping("/{id}")
-    public String getOneProduct(Model model, @PathVariable String id) throws ProductNotFoundException {
+    public String getOneProduct(Model model, @PathVariable String id) throws EntityNotFoundException {
 
         Product product = productService.findOneById(UUID.fromString(id));
         List<Review> reviews = reviewService.getReviewsByProduct(product).orElse(new ArrayList<>());
@@ -70,18 +70,6 @@ public class ProductController {
         }
     }
 
-//    @GetMapping(value = "/review/images/{id}", produces = MediaType.IMAGE_PNG_VALUE)
-//    public @ResponseBody byte[] getReviewImage(@PathVariable String id) throws IOException {
-//        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-//        BufferedImage bufferedImage = imageService.loadFileAsResource(id);
-//        if (bufferedImage != null) {
-//            ImageIO.write(bufferedImage,"png", byteArrayOutputStream);
-//            return byteArrayOutputStream.toByteArray();
-//        } else {
-//            return new byte[0];
-//        }
-//    }
-
     @PostMapping
     public String addOne(@RequestParam("image") MultipartFile image, ProductPojo productPojo) throws IOException {
         Image img = imageService.uploadImage(image, productPojo.getTitle());
@@ -89,9 +77,8 @@ public class ProductController {
     }
 
     @PostMapping("/reviews")
-    public String addReview(ReviewPojo reviewPojo, HttpSession session, Principal principal, MultipartFile multipartFile) throws ProductNotFoundException, IOException {
+    public String addReview(ReviewPojo reviewPojo, HttpSession session, Principal principal) throws EntityNotFoundException {
 
-        Image image = imageService.uploadImage(multipartFile,"image"+Math.random()*10000);
         Product product = productService.findOneById(reviewPojo.getProductId());
         Shopuser shopuser = shopuserService.findByPhone(principal.getName());
 
@@ -99,27 +86,13 @@ public class ProductController {
             .commentary(reviewPojo.getCommentary())
             .product(product)
             .shopuser(shopuser)
-            .image(image)
+            .approved(shopuser.getRole().equals(Role.ROLE_ADMIN))
         .build();
 
         reviewService.save(review);
 
         return "redirect:/products/" + product.getId();
-    }
 
-
-    @GetMapping("/disapproved/{pid}/{id}")
-    public String disapprovedReview(Model model,@PathVariable String pid, @PathVariable String id){
-        reviewService.deleteById(UUID.fromString(id));
-        return "redirect:/products/"+pid;
-    }
-
-    @GetMapping("/approved/{pid}/{id}")
-    public String approvedReview(Model model,@PathVariable String pid, @PathVariable String id){
-        Review review = reviewService.findById(UUID.fromString(id)).get();
-        review.setApproved(true);
-        reviewService.save(review);
-        return "redirect:/products/"+pid;
     }
 
 }

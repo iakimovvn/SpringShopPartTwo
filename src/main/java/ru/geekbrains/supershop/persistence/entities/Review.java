@@ -5,12 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
 import ru.geekbrains.supershop.persistence.entities.utils.PersistableEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 @Data
 @Entity
@@ -30,10 +30,6 @@ public class Review extends PersistableEntity {
     @JoinColumn(name = "product")
     private Product product;
 
-    private Boolean approved;
-
-    @OneToOne
-    @JoinColumn(name = "image")
-    private Image image;
+    private boolean approved;
 
 }

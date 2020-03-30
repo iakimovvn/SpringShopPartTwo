@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import ru.geekbrains.supershop.exceptions.ProductNotFoundException;
+import ru.geekbrains.supershop.exceptions.EntityNotFoundException;
 import ru.geekbrains.supershop.exceptions.UnsupportedMediaTypeException;
 import ru.geekbrains.supershop.exceptions.WrongCaptchaCodeException;
 
@@ -18,8 +18,8 @@ import ru.geekbrains.supershop.exceptions.WrongCaptchaCodeException;
 public class ShopExceptionHandler {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(ProductNotFoundException.class)
-    public String handleProductNotFoundException(final ProductNotFoundException ex, Model model) {
+    @ExceptionHandler(EntityNotFoundException.class)
+    public String handleProductNotFoundException(final EntityNotFoundException ex, Model model) {
         model.addAttribute("errorCode", 404);
         model.addAttribute("errorText", "NOT FOUND");
         model.addAttribute("errorMessage", ex.getMessage());

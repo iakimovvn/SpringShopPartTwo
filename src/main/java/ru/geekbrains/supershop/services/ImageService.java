@@ -42,10 +42,6 @@ public class ImageService {
         return imageRepository.obtainImageNameByProductId(id);
     }
 
-    private String getImageForSpecificPurchase(UUID id) {
-        return imageRepository.obtainImageNameByPurchaseId(id);
-    }
-
     public BufferedImage loadFileAsResource(String id) {
         String imageName = null;
 
@@ -53,10 +49,8 @@ public class ImageService {
             Path filePath;
 
             if (Validators.isUUID(id)) {
-                imageName = getImageForSpecificProduct(UUID.fromString(id));
 
-                if(imageName == null)
-                    imageName = getImageForSpecificPurchase(UUID.fromString(id));
+                imageName = getImageForSpecificProduct(UUID.fromString(id));
 
                 if (imageName != null) {
                     filePath = IMAGES_STORE_PATH.resolve(imageName).normalize();

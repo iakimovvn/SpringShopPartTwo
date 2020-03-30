@@ -52,7 +52,9 @@ public class ShopController {
         if (data != null) {
             System.out.println(data);
         }
+
         model.addAttribute("products", productService.findAll(null));
+
         return "admin";
     }
 
