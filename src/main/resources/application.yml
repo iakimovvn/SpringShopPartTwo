@@ -3,6 +3,11 @@ server:
     context-path: /supershop
 
 spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
   datasource:
     url: jdbc:postgresql://localhost:5432/onlineshop?useUnicode=true&characterEncoding=utf8
     driver-class-name: org.postgresql.Driver
@@ -20,3 +25,9 @@ files:
   storepath:
     icons:  "C:\\Users\\serpentcross\\Desktop\\HOMEWORK\\uploads\\icons"
     images: "C:\\Users\\serpentcross\\Desktop\\HOMEWORK\\uploads\\images"
+
+supershop:
+  rabbitmq:
+    exchange:   super-shop.exchange
+    routingkey: super.shop
+    queue:      super-shop.queue
