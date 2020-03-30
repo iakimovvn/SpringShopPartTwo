@@ -2,20 +2,27 @@ package ru.geekbrains.supershop.controllers;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import ru.geekbrains.paymentservice.Payment;
 import ru.geekbrains.supershop.beans.Cart;
 import ru.geekbrains.supershop.persistence.entities.Shopuser;
 import ru.geekbrains.supershop.services.ProductService;
+
 import ru.geekbrains.supershop.services.ReviewService;
 import ru.geekbrains.supershop.services.ShopuserService;
 import ru.geekbrains.supershop.utils.CaptchaGenerator;
+import ru.geekbrains.supershop.utils.Validators;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
@@ -37,6 +44,7 @@ public class ShopController {
 
     @GetMapping(value = "/", produces = MediaType.TEXT_HTML_VALUE)
     public String index(Model model, @RequestParam(required = false) Integer category) {
+
         model.addAttribute("cart", cart.getCartRecords());
         model.addAttribute("products", productService.findAll(category));
         return "index";
@@ -88,6 +96,22 @@ public class ShopController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @PostMapping("/checkout")
+    public String proceedToCheckout(String paymentId, Model model) {
+
+        Payment payment = cart.getPayments()
+                .stream()
+                .filter(p -> p.getId() == Integer.valueOf(paymentId))
+                .collect(Validators.toSingleton());
+
+        cart.setPayment(payment);
+
+        model.addAttribute("cart", cart);
+
+        return "checkout";
+
     }
 
 }
