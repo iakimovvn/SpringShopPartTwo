@@ -3,8 +3,13 @@ server:
     context-path: /supershop
 
 spring:
+  rabbitmq:
+    host: 10.0.0.140
+    port: 5672
+    username: vladimir
+    password: Bhbyf>hnftdf2011
   datasource:
-    url: jdbc:postgresql://localhost:5432/onlineshop?useUnicode=true&characterEncoding=utf8
+    url: jdbc:postgresql://10.0.0.140:5432/onlineshop?useUnicode=true&characterEncoding=utf8
     driver-class-name: org.postgresql.Driver
     username: vladimir
     password: Bhbyf>hnftdf2011
@@ -20,3 +25,9 @@ files:
   storepath:
     icons:  "/Users/vladimir/java/GeekBrains/SpringPartTwo/homework/upload/images/icons"
     images: "/Users/vladimir/java/GeekBrains/SpringPartTwo/homework/upload/images"
+
+supershop:
+  rabbitmq:
+    exchange:   super-shop.exchange
+    routingkey: super.shop
+    queue:      super-shop.queue

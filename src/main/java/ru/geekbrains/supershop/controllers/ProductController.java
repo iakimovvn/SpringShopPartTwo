@@ -1,5 +1,8 @@
 package ru.geekbrains.supershop.controllers;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.MediaType;
@@ -41,6 +44,7 @@ import java.util.UUID;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/products")
+@Api("Набор методов для витрины онлайн-магазина.")
 public class ProductController {
 
     private final ImageService imageService;
@@ -48,9 +52,9 @@ public class ProductController {
     private final ReviewService reviewService;
     private final ShopuserService shopuserService;
 
+    @ApiOperation(value = "Получить страницу с данными продукта.", response = String.class)
     @GetMapping("/{id}")
     public String getOneProduct(Model model, @PathVariable String id) throws EntityNotFoundException {
-
         Product product = productService.findOneById(UUID.fromString(id));
         List<Review> reviews = reviewService.getReviewsByProduct(product).orElse(new ArrayList<>());
         model.addAttribute("product", product);
@@ -58,6 +62,7 @@ public class ProductController {
         return "product";
     }
 
+    @ApiOperation(value = "Загрузка изображения.", response = String.class)
     @GetMapping(value = "/images/{id}", produces = MediaType.IMAGE_PNG_VALUE)
     public @ResponseBody byte[] getImage(@PathVariable String id) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -70,12 +75,14 @@ public class ProductController {
         }
     }
 
+    @ApiOperation(value = "Добавить новый продукт на витрину.", response = String.class)
     @PostMapping
     public String addOne(@RequestParam("image") MultipartFile image, ProductPojo productPojo) throws IOException {
         Image img = imageService.uploadImage(image, productPojo.getTitle());
         return productService.save(productPojo, img);
     }
 
+    @ApiOperation(value = "Добавить новый отзыв о продукте.", response = String.class)
     @PostMapping("/reviews")
     public String addReview(ReviewPojo reviewPojo, HttpSession session, Principal principal) throws EntityNotFoundException {
 

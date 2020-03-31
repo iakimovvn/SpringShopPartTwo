@@ -3,9 +3,13 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
 	id 'no.nils.wsdl2java' version '0.10'
+	id "com.google.cloud.tools.jib" version "1.8.0"
 }
 
+apply plugin: 'com.google.cloud.tools.jib'
 apply plugin: 'no.nils.wsdl2java'
+
+apply from: 'gradle/jib.gradle'
 
 
 configurations {
@@ -18,6 +22,9 @@ configurations {
 repositories {
 	mavenCentral()
 }
+
+def swaggerVersion = '2.8.0'
+
 
 dependencies {
 
@@ -39,6 +46,12 @@ dependencies {
 
 	testImplementation 'com.h2database:h2:1.4.197'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	implementation "io.springfox:springfox-bean-validators:${swaggerVersion}"
+	implementation "io.springfox:springfox-swagger2:${swaggerVersion}"
+	implementation "io.springfox:springfox-swagger-ui:${swaggerVersion}"
+
+	implementation "org.springframework.boot:spring-boot-starter-amqp"
 
 }
 

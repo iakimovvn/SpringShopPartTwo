@@ -1,8 +1,0 @@
-{
-  "properties": [
-    {
-      "name": "files.storepath.icons",
-      "type": "java.lang.String",
-      "description": "Description for files.storepath.icons."
-  }
-] }
