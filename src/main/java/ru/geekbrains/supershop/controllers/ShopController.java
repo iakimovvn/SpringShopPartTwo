@@ -1,5 +1,7 @@
 package ru.geekbrains.supershop.controllers;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.amqp.core.AmqpTemplate;
@@ -34,6 +36,7 @@ import java.util.ArrayList;
 
 @Controller
 @RequiredArgsConstructor
+@Api("Контроллер работы магазина")
 public class ShopController {
 
     private final Cart cart;
@@ -42,7 +45,9 @@ public class ShopController {
     private final ReviewService reviewService;
     private final ShopuserService shopuserService;
 
+
     @GetMapping(value = "/", produces = MediaType.TEXT_HTML_VALUE)
+    @ApiOperation(value = "Метод главной страницы")
     public String index(Model model, @RequestParam(required = false) Integer category) {
 
         model.addAttribute("cart", cart.getCartRecords());
@@ -51,6 +56,7 @@ public class ShopController {
     }
 
     @GetMapping("/admin")
+    @ApiOperation(value = "Метод страницы админа")
     public String adminPage(Model model, @CookieValue(value = "data", required = false) String data, Principal principal) {
 
         if (principal == null) {
@@ -67,6 +73,7 @@ public class ShopController {
     }
 
     @GetMapping("/profile")
+    @ApiOperation(value = "Метод личной страницы профиля")
     public String profilePage(Model model, @CookieValue(value = "data", required = false) String data, Principal principal) {
 
         if (principal == null) {
@@ -86,6 +93,7 @@ public class ShopController {
     }
 
     @GetMapping(value = "/captcha", produces = MediaType.IMAGE_PNG_VALUE)
+    @ApiOperation(value = "Метод возвращающий капчу в байт массиве")
     public @ResponseBody byte[] captcha(HttpSession session) {
         try {
             BufferedImage img = captchaGenerator.getCaptchaImage();
@@ -99,6 +107,7 @@ public class ShopController {
     }
 
     @PostMapping("/checkout")
+    @ApiOperation(value = "Метод выбора платежной информации")
     public String proceedToCheckout(String paymentId, Model model) {
 
         Payment payment = cart.getPayments()

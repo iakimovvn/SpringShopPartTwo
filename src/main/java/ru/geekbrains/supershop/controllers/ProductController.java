@@ -45,7 +45,7 @@ import java.util.UUID;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/products")
-@Api("Набор методов для витрины онлайн-магазина.")
+@Api(value = "Набор методов для витрины онлайн-магазина.")
 public class ProductController {
 
     private final AmqpTemplate amqpTemplate;
