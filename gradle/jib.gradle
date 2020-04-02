@@ -3,7 +3,7 @@ jib {
         image = "openjdk:8-jdk"
     }
     to {
-        image = 'localhost:5000/supershop/demo'
+        image = '10.0.0.140:2375/supershop/demo'
         tags = ['0.0.1']
     }
     container {
@@ -13,4 +13,4 @@ jib {
     }
 }
 
-jib.to.image = "serpentcross/${rootProject.name}"
+jib.to.image = "yakimovvn/${rootProject.name}"

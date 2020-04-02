@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,6 +48,7 @@ import java.util.UUID;
 @Api("Набор методов для витрины онлайн-магазина.")
 public class ProductController {
 
+    private final AmqpTemplate amqpTemplate;
     private final ImageService imageService;
     private final ProductService productService;
     private final ReviewService reviewService;
@@ -96,6 +98,7 @@ public class ProductController {
             .approved(shopuser.getRole().equals(Role.ROLE_ADMIN))
         .build();
 
+        amqpTemplate.convertAndSend("super-shop.exchange", "super.shop", shopuser.getId() + ": " + reviewPojo.getCommentary());
         reviewService.save(review);
 
         return "redirect:/products/" + product.getId();

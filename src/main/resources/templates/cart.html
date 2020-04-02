@@ -44,7 +44,7 @@
                                 <select id="payment" name="paymentId">
                                     <option th:each="payment : ${cart.payments}"
                                             th:value="${payment.id}"
-                                            th:text="${payment.name}">
+                                            th:text="${payment.name}+' / ' + ${payment.price}">
                                     </option>
                                 </select>
                             </label>
