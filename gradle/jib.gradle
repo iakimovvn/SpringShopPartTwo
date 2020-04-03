@@ -3,7 +3,7 @@ jib {
         image = "openjdk:8-jdk"
     }
     to {
-        image = '10.0.0.140:2375/supershop/demo'
+        image = 'supershop'
         tags = ['0.0.1']
     }
     container {

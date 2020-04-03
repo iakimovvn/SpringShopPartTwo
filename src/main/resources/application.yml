@@ -4,12 +4,12 @@ server:
 
 spring:
   rabbitmq:
-    host: 10.0.0.140
+    host: 192.168.0.6
     port: 5672
     username: vladimir
     password: Bhbyf>hnftdf2011
   datasource:
-    url: jdbc:postgresql://10.0.0.140:5432/onlineshop?useUnicode=true&characterEncoding=utf8
+    url: jdbc:postgresql://192.168.0.6:5432/onlineshop?useUnicode=true&characterEncoding=utf8
     driver-class-name: org.postgresql.Driver
     username: vladimir
     password: Bhbyf>hnftdf2011
