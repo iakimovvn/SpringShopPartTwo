@@ -28,9 +28,9 @@
                         </tbody>
                     </table>
                     <hr>
-                    <div>Выбрана система оплаты : [[ ${cart.payment.name}]], комиссия составит <b>[[ ${cart.payment.fee} ]] р.</b></div>
+                    <div>Выбрана система оплаты : [[ ${cart.payment.name}]], комиссия составит <b>[[ ${cart.payment.price} ]] р.</b></div>
                     <hr>
-                    <div>Итого : [[ ${cart.price} + ${cart.payment.fee}]]</div>
+                    <div>Итого : [[ ${@mathUtils.roundingPrice(cart.price + cart.payment.fee} ]]</div>
                     <br>
                     <input type="text" value="Оплатить заказ" />
                     <input type="text" value="Оплатить заказ" />
