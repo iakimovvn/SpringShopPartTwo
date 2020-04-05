@@ -101,6 +101,13 @@
                                 th:text="${category.name}">
                         </option>
                     </select>
+                    <select name="country">
+                        <option th:text="'Не выбрано'" th:value="null" ></option>
+                        <option th:each="country : ${countries}"
+                                th:value="${country.id}"
+                                th:text="${country.name}">
+                        </option>
+                    </select>
                 </label>
                 <button type="submit">применить</button>
             </form>

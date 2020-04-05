@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ru.geekbrains.supershop.exceptions.EntityNotFoundException;
+import ru.geekbrains.supershop.persistence.entities.Country;
 import ru.geekbrains.supershop.persistence.entities.Image;
 import ru.geekbrains.supershop.persistence.entities.Product;
 import ru.geekbrains.supershop.persistence.entities.enums.ProductCategory;
@@ -15,6 +16,8 @@ import ru.geekbrains.supershop.persistence.pojo.ProductPojo;
 import ru.geekbrains.supershop.persistence.repositories.ProductRepository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -33,8 +36,23 @@ public class ProductService {
         );
     }
 
-    public List<Product> findAll(Integer category) {
-        return category == null ? productRepository.findAll() : productRepository.findAllByCategory(ProductCategory.values()[category]);
+    public List<Product> findAll(Integer category, String countryName) {
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
+        Root<Product> root = criteriaQuery.from(Product.class);
+        Join<Product, Country> countryJoin = root.join("country");
+        List<Predicate> predicates = new ArrayList<>();
+
+        if(category != null)
+            predicates.add(criteriaBuilder.equal(root.get("category"), ProductCategory.values()[category]));
+
+        if(countryName != null && !countryName.isEmpty())
+            predicates.add(criteriaBuilder.equal(countryJoin.get("name"), countryName));
+
+        criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[]{})));
+
+        return entityManager.createQuery(criteriaQuery).getResultList();
     }
 
     @Transactional
@@ -48,7 +66,8 @@ public class ProductService {
             .available(productPogo.isAvailable())
             .category(productPogo.getCategory())
             .image(image)
-        .build();
+            .country(productPogo.getCountry())
+                .build();
 
         productRepository.save(product);
         log.info("New Product has been succesfully added! {}", product);
