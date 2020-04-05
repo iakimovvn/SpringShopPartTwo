@@ -14,6 +14,7 @@ import ru.geekbrains.supershop.persistence.pojo.ProductPojo;
 
 import ru.geekbrains.supershop.persistence.repositories.ProductRepository;
 
+import javax.persistence.EntityManager;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -24,6 +25,7 @@ import java.util.UUID;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final EntityManager entityManager;
 
     public Product findOneById(UUID uuid) throws EntityNotFoundException {
         return productRepository.findById(uuid).orElseThrow(

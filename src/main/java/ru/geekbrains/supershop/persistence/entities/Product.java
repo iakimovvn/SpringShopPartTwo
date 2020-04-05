@@ -12,12 +12,7 @@ import lombok.NoArgsConstructor;
 import ru.geekbrains.supershop.persistence.entities.enums.ProductCategory;
 import ru.geekbrains.supershop.persistence.entities.utils.PersistableEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 import java.util.Date;
 import java.util.List;
@@ -54,6 +49,11 @@ public class Product extends PersistableEntity {
     @JoinColumn(name = "image")
     @ApiModelProperty(reference = "Image", value = "Фотография продукта")
     private Image image;
+
+    @ManyToOne
+    @JoinColumn(name = "country")
+    private Country country;
+
 
     @OneToMany(mappedBy = "product")
     private List<Review> reviews;
