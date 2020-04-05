@@ -27,6 +27,10 @@ out/
 /dist/
 /nbdist/
 /.nb-gradle/
+<<<<<<< HEAD
 
+=======
+/src/main/script_generated/**
+>>>>>>> 96da1a48ae70ad5bce1c7da041b7e1743e3ed803
 ### VS Code ###
 .vscode/
