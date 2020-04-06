@@ -14,6 +14,14 @@ import ru.geekbrains.supershop.persistence.pojo.ProductPojo;
 
 import ru.geekbrains.supershop.persistence.repositories.ProductRepository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -22,6 +30,9 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class ProductService {
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     private final ProductRepository productRepository;
 
@@ -33,6 +44,38 @@ public class ProductService {
 
     public List<Product> findAll(Integer category) {
         return category == null ? productRepository.findAll() : productRepository.findAllByCategory(ProductCategory.values()[category]);
+    }
+
+    public List<Product> findAll(Integer category, Integer minPrice, Integer maxPrice, Boolean notAvailable) {
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
+
+        Root<Product> root = criteriaQuery.from(Product.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (category != null) {
+            predicates.add(criteriaBuilder.equal(root.get("category"), category));
+        }
+
+        if (minPrice != null) {
+            predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("price"), minPrice));
+        }
+
+        if (maxPrice != null) {
+            predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("price"), maxPrice));
+        }
+
+        if (notAvailable == null || !notAvailable) {
+            predicates.add(criteriaBuilder.isTrue(root.get("available")));
+        }
+
+        criteriaQuery.select(root);
+        criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[]{})));
+
+        return entityManager.createQuery(criteriaQuery).getResultList();
+
     }
 
     @Transactional

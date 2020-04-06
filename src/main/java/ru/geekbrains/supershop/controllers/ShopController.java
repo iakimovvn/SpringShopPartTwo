@@ -2,8 +2,6 @@ package ru.geekbrains.supershop.controllers;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,10 +41,14 @@ public class ShopController {
     private final ShopuserService shopuserService;
 
     @GetMapping(value = "/", produces = MediaType.TEXT_HTML_VALUE)
-    public String index(Model model, @RequestParam(required = false) Integer category) {
-
+    public String index(Model model,
+        @RequestParam(required = false) Integer category,
+        @RequestParam(required = false) Integer minPrice,
+        @RequestParam(required = false) Integer maxPrice,
+        @RequestParam(required = false) Boolean notAvailable)
+    {
         model.addAttribute("cart", cart.getCartRecords());
-        model.addAttribute("products", productService.findAll(category));
+        model.addAttribute("products", productService.findAll(category, minPrice, maxPrice, notAvailable));
         return "index";
     }
 
