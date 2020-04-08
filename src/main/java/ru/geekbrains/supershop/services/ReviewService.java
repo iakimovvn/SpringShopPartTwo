@@ -43,4 +43,8 @@ public class ReviewService {
         return review.getProduct().getId();
     }
 
+    public List<Review> getAll() {
+        return reviewRepository.findAll();
+    }
+
 }
