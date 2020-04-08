@@ -10,10 +10,6 @@ import ru.geekbrains.supershop.persistence.entities.utils.PersistableEntity;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import java.util.List;
 
 @Entity
 @Data
@@ -33,11 +29,5 @@ public class Shopuser extends PersistableEntity {
 
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    @OneToMany(mappedBy = "shopuser")
-    private List<Purchase> purchases;
-
-    @OneToMany(mappedBy = "shopuser")
-    private List<Review> reviews;
 
 }
