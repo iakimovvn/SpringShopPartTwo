@@ -48,3 +48,9 @@ Practical Example for Spring Framework GeekBrains course.
 
 - Переписать метод findAll() в контроллере ShopController используя entityManager сделать так, 
 чтобы можно было возвращать продукты отфильтрованные по категории, и например по какому-нибудь другому полю. К примеру - страна происхождения, Russia, USA и т.д.
+
+###LESSON_7 Домашнее задание:
+
+- Создать MVC-test тестирования POST-метода или PUT-метода любого контроллера на ваш выбор. Если такого метода нет, то создайте его. На вход можно например подавать JSON модель.
+- Создать интеграционные тесты для методов **Optional<List<Review>> getReviewsByProduct**, **Optional<List<Review>> getReviewsByShopuser** и **UUID moderate** для сервиса ReviewService;
+- (Необязательно) - для второго задания можно воспользоваться TestContainers, но если у кого то не установлен Docker, то это можно пропустить.
