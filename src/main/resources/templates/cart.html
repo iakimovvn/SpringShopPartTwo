@@ -9,6 +9,7 @@
     </head>
     <body>
         <div class="container">
+            <br>
             <div th:replace="~{navigation :: navigation(Home)}" />
             <br>
             <div style="text-align: center;">
@@ -38,10 +39,12 @@
                     </tr>
                     </tbody>
                 </table>
-
-                <span th:text="'Общая стоимость: ' + ${cart.price}" />
+                <hr>
                 <form method="post" th:action="@{/checkout}">
                     <div class="row" th:if="${cart.payments.size() > 0 && cart.cartRecords.size() > 0}">
+                        <div class="col-sm">
+                            <span th:text="'Общая стоимость: ' + ${cart.price}" />
+                        </div>
                         <div class="col-sm">
                             Выберите способ оплаты:
                             <label>
@@ -63,7 +66,7 @@
                 </form>
             </div>
             <div th:if="${cart.cartRecords.size() == 0}">
-                <span text="Ваша корзина пуста" />
+                <span>Ваша корзина пуста!</span>
             </div>
         </div>
 
