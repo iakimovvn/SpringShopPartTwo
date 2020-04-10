@@ -9,6 +9,7 @@
     </head>
     <body>
         <div class="container">
+            <br>
             <div th:replace="~{navigation :: navigation(Home)}" />
             <br>
             <div style="text-align: center;">
@@ -34,11 +35,23 @@
                     <hr>
                     <div>Выбрана система оплаты : [[ ${cart.payment.name}]], комиссия составит <b>[[ ${cart.payment.fee} ]] р.</b></div>
                     <hr>
-                    <div>Итого : [[ ${cart.price} + ${cart.payment.fee}]]</div>
-                    <br>
-                    <input type="text" name="phone" value="Номер телефона" />
-                    <input type="text" name="email" value="E-mail" />
-                    <input type="submit" class="btn btn-primary" value="Оплатить заказ" />
+
+                    <form action="#" th:action="@{/purchase}" method="POST" class="col-12">
+                        <div class="row">
+                            <div class="col-3">
+                                <div>Итого : [[ ${cart.price} + ${cart.payment.fee}]]</div>
+                            </div>
+                            <div class="col-3">
+                                <input type="text" name="phone" placeholder="Номер телефона" />
+                            </div>
+                            <div class="col-3">
+                                <input type="text" name="email" placeholder="E-mail" />
+                            </div>
+                            <div class="col-3">
+                                <input type="submit" class="btn btn-primary" value="Оплатить заказ" />
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

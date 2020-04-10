@@ -49,7 +49,7 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	
-	//testImplementation 'com.h2database:h2:1.4.197'
+	testImplementation 'com.h2database:h2:1.4.197'
 	testImplementation 'org.testcontainers:postgresql:1.11.2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 

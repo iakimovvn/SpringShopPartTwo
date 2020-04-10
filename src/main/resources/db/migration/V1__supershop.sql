@@ -59,7 +59,7 @@ DROP TABLE IF EXISTS purchase;
 CREATE TABLE IF NOT EXISTS purchase (
     id uuid DEFAULT uuid_generate_v4() UNIQUE NOT NULL CONSTRAINT PK_purchase PRIMARY KEY,
     price DOUBLE PRECISION DEFAULT 0.0 NOT NULL,
-    address VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
     phone VARCHAR(255) UNIQUE NOT NULL,
     shopuser uuid NOT NULL CONSTRAINT FK_purchase_users REFERENCES shopuser
 );
@@ -82,4 +82,11 @@ CREATE TABLE IF NOT EXISTS review (
     shopuser uuid NOT NULL CONSTRAINT FK_review_shopuser REFERENCES shopuser,
     product uuid NOT NULL CONSTRAINT FK_review_product REFERENCES product,
     approved BOOLEAN NOT NULL
+);
+
+DROP TABLE IF EXISTS purchase_product;
+
+CREATE TABLE purchase_product (
+    purchase UUID NOT NULL CONSTRAINT FK_purchase_product_purchase REFERENCES purchase,
+    product UUID NOT NULL CONSTRAINT FK_purchase_product_product REFERENCES product
 );
