@@ -1,0 +1,37 @@
+server:
+  servlet:
+    context-path: /supershop
+
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+  datasource:
+    url: jdbc:postgresql://localhost:5432/onlineshop?useUnicode=true&characterEncoding=utf8
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: postgres
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+  thymeleaf:
+    cache: false
+
+files:
+  storepath:
+    icons:  "C:\\Users\\serpentcross\\Desktop\\HOMEWORK\\uploads\\icons"
+    images: "C:\\Users\\serpentcross\\Desktop\\HOMEWORK\\uploads\\images"
+
+supershop:
+  rabbitmq:
+    exchange:   super-shop.exchange
+    routingkey: super.shop
+    queue:      super-shop.queue
+
+documents:
+  service:
+    url: "localhost:10210/documents"
