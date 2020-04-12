@@ -2,7 +2,7 @@ package ru.geekbrains.supershop.persistence.repositories;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.jetbrains.annotations.NotNull;
+//import org.jetbrains.annotations.NotNull;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -23,7 +23,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import org.testcontainers.containers.PostgreSQLContainer;
+//import org.testcontainers.containers.PostgreSQLContainer;
 import ru.geekbrains.supershop.persistence.entities.Product;
 
 import java.io.IOException;
@@ -34,43 +34,43 @@ import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTest
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = NONE)
 @RunWith(SpringRunner.class)
-@ContextConfiguration(initializers = {ProductRepotoryDockerContainerTest.Initializer.class})
+//@ContextConfiguration(initializers = {ProductRepotoryDockerContainerTest.Initializer.class})
 public class ProductRepotoryDockerContainerTest {
 
-    @ClassRule
-    public static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres");
-
-    static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-        public void initialize(@NotNull ConfigurableApplicationContext configurableApplicationContext) {
-            TestPropertyValues.of(
-                "spring.datasource.url=" + postgreSQLContainer.getJdbcUrl(),
-                "spring.datasource.username=" + postgreSQLContainer.getUsername(),
-                "spring.datasource.password=" + postgreSQLContainer.getPassword()
-            ).applyTo(configurableApplicationContext.getEnvironment());
-        }
-    }
-
-    private List<Product> productMocks;
-
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Before
-    public void setUp() {
-
-        try {
-            productMocks = new ObjectMapper().readValue(new ClassPathResource("mocks/products.json").getFile(), new TypeReference<List<Product>>() {});
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        productMocks.forEach(product -> productRepository.save(product));
-
-    }
-
-    @Test
-    public void mustFindAllProducts() {
-        Assert.assertEquals(4, productRepository.findAll().size());
-    }
+//    @ClassRule
+//    public static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres");
+//
+//    static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+//        public void initialize(@NotNull ConfigurableApplicationContext configurableApplicationContext) {
+//            TestPropertyValues.of(
+//                "spring.datasource.url=" + postgreSQLContainer.getJdbcUrl(),
+//                "spring.datasource.username=" + postgreSQLContainer.getUsername(),
+//                "spring.datasource.password=" + postgreSQLContainer.getPassword()
+//            ).applyTo(configurableApplicationContext.getEnvironment());
+//        }
+//    }
+//
+//    private List<Product> productMocks;
+//
+//    @Autowired
+//    private ProductRepository productRepository;
+//
+//    @Before
+//    public void setUp() {
+//
+//        try {
+//            productMocks = new ObjectMapper().readValue(new ClassPathResource("mocks/products.json").getFile(), new TypeReference<List<Product>>() {});
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        productMocks.forEach(product -> productRepository.save(product));
+//
+//    }
+//
+//    @Test
+//    public void mustFindAllProducts() {
+//        Assert.assertEquals(4, productRepository.findAll().size());
+//    }
 
 }

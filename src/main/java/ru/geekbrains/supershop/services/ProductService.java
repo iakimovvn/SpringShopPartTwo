@@ -96,4 +96,8 @@ public class ProductService {
         return "redirect:/";
     }
 
+    public void delete(Product product){
+        productRepository.delete(product);
+    }
+
 }

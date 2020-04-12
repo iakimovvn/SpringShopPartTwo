@@ -5,7 +5,9 @@ import io.swagger.annotations.ApiOperation;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -100,6 +102,12 @@ public class ProductController {
 
         return "redirect:/products/" + product.getId();
 
+    }
+
+
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Product>> getAllReviews() {
+        return new ResponseEntity<>(productService.findAll(null), HttpStatus.OK);
     }
 
 }

@@ -45,6 +45,14 @@ public class ShopuserService implements UserDetailsService {
         return role != null ? new ArrayList<GrantedAuthority>() {{ add((GrantedAuthority) role::name); }} : new ArrayList<>();
     }
 
+    public Shopuser save(Shopuser shopuser){
+        return shopuserRepository.save(shopuser);
+    }
+
+    public void delete(Shopuser shopuser){
+        shopuserRepository.delete(shopuser);
+    }
+
     public boolean isUserExist(String phone) {
         return shopuserRepository.existsByPhone(phone);
     }

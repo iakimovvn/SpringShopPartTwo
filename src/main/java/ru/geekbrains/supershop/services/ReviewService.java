@@ -47,4 +47,8 @@ public class ReviewService {
         return reviewRepository.findAll();
     }
 
+    public void delete(Review review){
+        reviewRepository.delete(review);
+    }
+
 }
