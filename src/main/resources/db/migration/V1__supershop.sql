@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS purchase (
     id uuid DEFAULT uuid_generate_v4() UNIQUE NOT NULL CONSTRAINT PK_purchase PRIMARY KEY,
     price DOUBLE PRECISION DEFAULT 0.0 NOT NULL,
     email VARCHAR(255) NOT NULL,
-    phone VARCHAR(255) UNIQUE NOT NULL,
+    phone VARCHAR(255) NOT NULL,
     shopuser uuid NOT NULL CONSTRAINT FK_purchase_users REFERENCES shopuser
 );
 

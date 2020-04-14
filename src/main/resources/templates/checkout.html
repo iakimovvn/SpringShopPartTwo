@@ -33,13 +33,13 @@
                         </tbody>
                     </table>
                     <hr>
-                    <div>Выбрана система оплаты : [[ ${cart.payment.name}]], комиссия составит <b>[[ ${cart.payment.fee} ]] р.</b></div>
+                    <div>Выбрана система оплаты : [[ ${cart.payment.name}]], комиссия составит <b>[[ ${cart.payment.price} ]] р.</b></div>
                     <hr>
 
                     <form action="#" th:action="@{/purchase}" method="POST" class="col-12">
                         <div class="row">
                             <div class="col-3">
-                                <div>Итого : [[ ${cart.price} + ${cart.payment.fee}]]</div>
+                                <div>Итого : [[ ${cart.price} + ${cart.payment.price}]]</div>
                             </div>
                             <div class="col-3">
                                 <input type="text" name="phone" placeholder="Номер телефона" />

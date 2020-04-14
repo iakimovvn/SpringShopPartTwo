@@ -135,7 +135,7 @@ public class ShopController {
                 .map(CartRecord::getProduct)
                 .collect(Collectors.toList())
             )
-            .price(cart.getPrice() + cart.getPayment().getFee())
+            .price(cart.getPrice() + cart.getPayment().getPrice())
             .phone(phone)
             .email(email)
         .build();
