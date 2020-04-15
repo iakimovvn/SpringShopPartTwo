@@ -1,33 +1,34 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="EN">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml" lang="EN">
     <head>
         <meta charset="utf-8"/>
-        <title>SuperShop</title>
+        <title>Super Shop</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     </head>
     <body>
         <div class="container">
-
-            <div style="text-align: center;">
-                <h1>Super Shop</h1>
-            </div>
-
+            <br>
+            <div th:replace="~{navigation :: navigation(Home)}" />
+            <br>
             <table class="table table-hover">
                 <thead class="thead-dark">
                 <tr>
                     <th>#</th>
                     <th>Наименование</th>
-                    <th>Картинка</th>
+                    <th>Изображение</th>
                     <th>Описание</th>
                     <th>Цена</th>
                     <th>Дата добавления</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
                     <tr th:each="product, iterator : ${products}">
                         <!--/*@thymesVar id="product" type="ru.geekbrains.supershop.persistence.entities.Product"*/-->
                         <span th:if="${product.available}">
-                            <td th:text="${iterator.index + 1}"/>
+                            <td th:text="${iterator.index + 1}"></td>
                             <td>
                                 <a th:href="@{'/products/' + ${product.id}}">[[ ${product.title} ]]</a>
                             </td>
@@ -36,26 +37,71 @@
                                     <img th:src="@{'/products/images/' + ${product.id}}" alt="" width="50px" height="50px" />
                                 </div>
                             </td>
-                            <td th:text="${product.description}"/>
-                            <td th:text="${product.price}"/>
-                            <td th:text="${#dates.format(product.added, 'dd-MM-yyyy')}"/>
+                            <td th:text="${product.description}"></td>
+                            <td th:text="${product.price}"></td>
+                            <td th:text="${#dates.format(product.added, 'dd-MM-yyyy')}"></td>
+                            <td>
+                                <div sec:authorize="isAuthenticated()">
+                                    <a th:href="@{'/cart/add/' + ${product.id}}">
+                                        <img th:src="@{'/products/images/cart.png'}" alt="" width="30px" height="30px" />
+                                    </a>
+                                </div>
+                            </td>
                         </span>
                     </tr>
                 </tbody>
             </table>
+
             <hr>
-            Категория продуктов:
-            <form th:action="@{/}" method="get">
-                <select name="category">
-                    <option th:text="'Не выбрано'" th:value="null"/>
-                    <option th:each="category : ${T(ru.yakimov.persistence.entities.enums.ProductCategory).values()}"
-                            th:value="${category.ordinal()}"
-                            th:text="${category.name}"
-                    />
-                </select>
-                <button type="submit">применить</button>
+
+            <form th:action="@{/}" method="get" class="col-12">
+                <div class="row">
+                    <div class="col-4">
+                        <label>
+                            Категория: <select name="category">
+                                <option th:text="'Не выбрано'" th:value="null"></option>
+                                <!--suppress ThymeleafVariablesResolveInspection -->
+                                <option th:each="category : ${T(ru.geekbrains.supershop.persistence.entities.enums.ProductCategory).values()}"
+                                        th:value="${category.ordinal()}"
+                                        th:text="${category.name}">
+                                </option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="col-2">
+                        <label>
+                            <div class="row form-inline">
+                                <label for="minPrice" class="col-1 col-form-label">от: </label>
+                                <input type="number" class="form-control col" placeholder="0" min="0" max="5000" name="minPrice" id="minPrice">
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-2">
+                        <label>
+                            <div class="row form-inline">
+                                <label for="minPrice" class="col-1 col-form-label">до: </label>
+                                <input type="number" class="form-control col" placeholder="5000" min="0" max="5000" name="maxPrice" id="maxPrice">
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-2">
+                        <label>
+                            <div class="form-group">
+                                <input type="checkbox" class="form-check-input" name="notAvailable" id="available">
+                                <label class="form-check-label" for="available">отсутствующие товары</label>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="col-2">
+                        <label>
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit">применить</button>
+                            </div>
+                        </label>
+                    </div>
+                </div>
             </form>
+
         </div>
-    \
     </body>
 </html>
