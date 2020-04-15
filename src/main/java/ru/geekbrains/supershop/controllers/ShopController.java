@@ -2,6 +2,7 @@ package ru.geekbrains.supershop.controllers;
 
 import lombok.RequiredArgsConstructor;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,11 +23,12 @@ import ru.geekbrains.supershop.services.ProductService;
 import ru.geekbrains.supershop.services.PurchaseService;
 import ru.geekbrains.supershop.services.ReviewService;
 import ru.geekbrains.supershop.services.ShopuserService;
-import ru.geekbrains.supershop.services.mail.MailService;
+import ru.geekbrains.supershop.services.mail.EmailService;
 import ru.geekbrains.supershop.utils.CaptchaGenerator;
 import ru.geekbrains.supershop.utils.Validators;
 
 import javax.imageio.ImageIO;
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 
 import java.awt.image.BufferedImage;
@@ -47,7 +49,8 @@ public class ShopController {
     private final PurchaseService purchaseService;
     private final ReviewService reviewService;
     private final ShopuserService shopuserService;
-    private final MailService mailService;
+    private final EmailService mailService;
+
 
     @GetMapping(value = "/", produces = MediaType.TEXT_HTML_VALUE)
     public String index(Model model,
@@ -126,7 +129,7 @@ public class ShopController {
     }
 
     @PostMapping("/purchase")
-    public String finishOrderAndPay(String phone, String email, Principal principal, Model model) {
+    public String finishOrderAndPay(String phone, String email, Principal principal, Model model) throws MessagingException {
 
         Shopuser shopuser = shopuserService.findByPhone(principal.getName());
 
@@ -144,7 +147,10 @@ public class ShopController {
         .build();
 
         purchase = this.purchaseService.makePurchase(purchase);
-        mailService.sendEmail(purchase);
+
+        mailService.sendHtmlEmail(purchase);
+
+
         model.addAttribute("purchase", purchase);
 
 
