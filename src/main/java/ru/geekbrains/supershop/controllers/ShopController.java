@@ -22,6 +22,7 @@ import ru.geekbrains.supershop.services.ProductService;
 import ru.geekbrains.supershop.services.PurchaseService;
 import ru.geekbrains.supershop.services.ReviewService;
 import ru.geekbrains.supershop.services.ShopuserService;
+import ru.geekbrains.supershop.services.mail.MailService;
 import ru.geekbrains.supershop.utils.CaptchaGenerator;
 import ru.geekbrains.supershop.utils.Validators;
 
@@ -46,6 +47,7 @@ public class ShopController {
     private final PurchaseService purchaseService;
     private final ReviewService reviewService;
     private final ShopuserService shopuserService;
+    private final MailService mailService;
 
     @GetMapping(value = "/", produces = MediaType.TEXT_HTML_VALUE)
     public String index(Model model,
@@ -138,9 +140,13 @@ public class ShopController {
             .price(cart.getPrice() + cart.getPayment().getPrice())
             .phone(phone)
             .email(email)
+
         .build();
 
-        model.addAttribute("purchase", purchaseService.makePurchase(purchase));
+        purchase = this.purchaseService.makePurchase(purchase);
+        mailService.sendEmail(purchase);
+        model.addAttribute("purchase", purchase);
+
 
         return "orderdone";
 
